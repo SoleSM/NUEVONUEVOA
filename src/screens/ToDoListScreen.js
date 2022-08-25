@@ -1,14 +1,12 @@
 import {View} from 'react-native'
-import ListadoTareas from '../components/ListadoTareas';
+import ListadoDeTareas from '../components/ListadoTareas'
 
-function HomeScreen() {
+function ToDoList() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <ListadoTareas/>
+        <ListadoDeTareas/>
       </View>
     );
 }
 
-export default HomeScreen;
-
-  
+export default ToDoList;

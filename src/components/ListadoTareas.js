@@ -1,140 +1,132 @@
-import {useState} from "react";
-import { Button, TextInput, View, FlatList, SafeAreaView, Text, StatusBar, StyleSheet} from 'react-native-web';
-import { CheckBox} from "react-native-btr";
+import { useState } from "react";
+import { View, FlatList, SafeAreaView, StyleSheet } from 'react-native-web';
+import { Input, IconButton, Text, Box, VStack, HStack, Icon, Center, Checkbox, Stack} from "native-base";
+import { Feather, Entypo } from "@expo/vector-icons";
 
 
 
-const ListadoTareas = () => {
-    //Estado del input
-    const [input, setinput] = useState("");
-    //Estado del array de tareas
-    const [list, setList] = useState([]);
-    //Estado del check
-    const [checked, setChecked] = useState(false)
+
+const ListadoDeTareas = () => {
+  //Estado del input
+  const [input, setinput] = useState("");
+  //Estado del array de tareas
+  const [list, setList] = useState([]);
+  //Estado del check
+  const [checked, setChecked] = useState(false)
 
 
-//Función que accede a la propiedad "checked" de los objetos de list y los modifica    
-function cambiarEstadoCheck(id) {
-  const item = list[id];
-  item.checked = !item.checked;
-  setChecked([...list]);
-  console.log(item.checked)
-}
+  //Función que accede a la propiedad "checked" de los objetos de list y los modifica    
+  function cambiarEstadoCheck(id) {
+    const item = list[id];
+    item.checked = !item.checked;
+    setChecked([...list]);
+    console.log("Tarea completada ? " +  item.checked)
+  }
 
-//Borrar elemento de la lista
-const DeleteItems = id => {
-  setList((list) => list.filter(item => item.id !== id))
-  console.log(list)
-};
-
-
-
-    const manejarEnvio = () => {
-        let id = list.length
-        
-        //se setea la lista con todos los elementos existentes y se agrega el nuevo (texto y id)
-        setList([...list, {input, id, checked}]) 
-        //limpiar input
-        setinput("");
-    };
-
-  
-
-  
-
-    const Item = ({ title }) => (
-        <View style={styles.item}>
-          <Text style={[styles.title, checked && styles.textChecked]}>{title}</Text>
-        </View>
-      
-    );
-
-    const renderItem = ({ item }) => (
-      <View>
-
-        <Item title={item.input} />
-        <CheckBox
-        checked={item.checked}
-        onPress={()=> cambiarEstadoCheck(item.id)}
-        style={styles.checkbox}
-       />
-        <Button
-        title="X"
-        onPress={() => DeleteItems(item.id)}/>
-
-      </View>
-      
-    )
-
-    
-
-    return(
-    <View style={styles.container}>
-
-        <div style={styles.div}>
-
-        <TextInput style={styles.input} placeholder= 'Ingrese la tarea'
-        value={input}
-        onChange={e => setinput(e.target.value)}
-        />
-        
-        <Button style={styles.boton}
-        disabled={input ? "" : "disabled"}
-        onPress={manejarEnvio}
-        title="agregar"/>
+  //Borrar elemento de la lista
+  const DeleteItems = id => {
+    setList((list) => list.filter(item => item.id !== id))
+    console.log(" el id numero " + id + " se ha eliminado")
+   
+  };
 
 
-        </div>
-      
-        
-       
 
-        <SafeAreaView style={styles.container}>
-          <FlatList
-            data={list}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-          
-            
-          />
-        </SafeAreaView>
+  const manejarEnvio = () => {
+    let id = list.length
+
+    //se setea la lista con todos los elementos existentes y se agrega el nuevo (texto y id)
+    setList([...list, { input, id, checked }])
+    //limpiar input
+    setinput("");
+
+    console.log("Nuevo elemento agregado. ID: " + id)
+  };
 
 
+
+
+
+  const Item = ({ title }) => (
+    <View >
+      <Text>{title}</Text>
     </View>
-        
-    )
-  
 
+  );
+
+  const renderItem = ({ item }) => (
+    <View>
+
+        <Stack >
+          <HStack space={3} justifyContent="space-between">
+
+             <Checkbox value="test" 
+             checked={item.checked} 
+             ariaLabel="ChangeState"
+            onChange={() => cambiarEstadoCheck(item.id)} />
+
+              <Text alignItems="left" style={ item.checked===true ? styles.textChecked : null}>
+                {item.input}
+             </Text>
+        
+              <IconButton size="sm" colorScheme="trueGray" 
+              icon={<Icon as={Entypo} name="minus" size="xs" color="trueGray.400" />}
+              onPress={() => DeleteItems(item.id)} />
+          </HStack>
+        </Stack>  
+    </View>
+
+  )
+
+
+
+  return (
+
+    <Center w="100%">
+      <Box maxW="300" w="100%">
+        <VStack space={4}>
+          <HStack space={2}>
+            <Input flex={1}
+              onChange={e => setinput(e.target.value)}
+              value={input}
+              placeholder="Add Task" />
+
+            <IconButton borderRadius="sm"
+              variant="solid"
+              icon={<Icon as={Feather}
+                name="plus"
+                size="sm"
+                color="warmGray.50" />} onPress={manejarEnvio}
+            />
+          </HStack>
+          <VStack space={2}>
+
+
+            <SafeAreaView >
+              <FlatList
+                data={list}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+              />
+            </SafeAreaView>
+
+          </VStack>
+        </VStack>
+      </Box>
+    </Center>
+
+
+  )
 
 }
 
 
 const styles = StyleSheet.create({
-    container: {
-        alignItems: "normal",
-    },
-    item: {
-      backgroundColor: '#f9c2ff',
-      padding: 20,
-      marginVertical: 8,
-      marginHorizontal: 16,
-    },
-    title: {
-      fontSize: 10,
-    },
-    textChecked:{
-      fontSize: 10,
-      textDecorationLine:'line-through',
-      textDecorationStyle:'solid'
 
-    },
-    checkbox: {
-      alignSelf: "center",
-    },
-    div:{
-        flexDirection: "row",
-    }
-   
-  });
-  
-export default ListadoTareas;
+  textChecked:{
+    textDecorationLine:'line-through',
+
+  },
+});
+
+export default ListadoDeTareas;

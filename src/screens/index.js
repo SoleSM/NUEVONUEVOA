@@ -1,7 +1,9 @@
-import Home from './Home';
-import Tarjetas from './Tarjetas'
+import Home from './HomeScreen';
+import Tarjetas from './TarjetasScreen';
+import ToDoList from './ToDoListScreen';
 
 export {
     Home, 
-    Tarjetas
+    Tarjetas,
+    ToDoList
 }

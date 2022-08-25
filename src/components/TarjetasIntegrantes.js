@@ -1,6 +1,6 @@
 import { View, Image, Text} from "react-native-web";
 import styles from '../styles/tarjetaStyle'
-import { Stack, VStack, HStack} from "native-base";
+import { VStack, HStack} from "native-base";
 
 const Tarjeta = (props) => {
     return(

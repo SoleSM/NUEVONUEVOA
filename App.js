@@ -1,14 +1,14 @@
-import React from 'react';
-// 1. import `NativeBaseProvider` component
-import { NativeBaseProvider, Text, Box } from 'native-base';
-import Navigator from './src/components/Navigator';
-
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import MyTabs from './src/components/Navigator2';
+import { NativeBaseProvider } from 'native-base';
 
 export default function App() {
-  
   return (
     <NativeBaseProvider>
-      <Navigator/>
+      <NavigationContainer>
+        <MyTabs />
+      </NavigationContainer>
     </NativeBaseProvider>
   );
 }

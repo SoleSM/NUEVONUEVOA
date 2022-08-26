@@ -1,12 +1,15 @@
 import React from "react";
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import {Home, Tarjetas, ToDoList} from '../screens/index'
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const Navigator = () => {
     return (
+
 
         <NavigationContainer>
             <Stack.Navigator>
@@ -15,6 +18,7 @@ const Navigator = () => {
                 <Stack.Screen name="Tareas" component={ToDoList}/>
             </Stack.Navigator>
         </NavigationContainer>
+        
 
     )
 }

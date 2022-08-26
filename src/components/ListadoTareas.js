@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, FlatList, SafeAreaView, StyleSheet } from 'react-native-web';
+import { View, FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import { Input, IconButton, Text, Box, VStack, HStack, Icon, Center, Checkbox, Stack} from "native-base";
 import { Feather, Entypo } from "@expo/vector-icons";
 
@@ -43,10 +43,6 @@ const ListadoDeTareas = () => {
     console.log("Nuevo elemento agregado. ID: " + id)
   };
 
-
-
-
-
   const Item = ({ title }) => (
     <View >
       <Text>{title}</Text>
@@ -55,7 +51,7 @@ const ListadoDeTareas = () => {
   );
 
   const renderItem = ({ item }) => (
-    <View>
+    <View key={item.id}>
 
         <Stack >
           <HStack space={3} justifyContent="space-between">
@@ -63,9 +59,10 @@ const ListadoDeTareas = () => {
              <Checkbox value="test" 
              checked={item.checked} 
              ariaLabel="ChangeState"
-            onChange={() => cambiarEstadoCheck(item.id)} />
+            onChange={() => cambiarEstadoCheck(item.id)}
+            accessibilityLabel={item.title} />
 
-              <Text alignItems="left" style={ item.checked===true ? styles.textChecked : null}>
+              <Text style={ item.checked ? styles.textChecked : null}>
                 {item.input}
              </Text>
         
@@ -87,7 +84,7 @@ const ListadoDeTareas = () => {
         <VStack space={4}>
           <HStack space={2}>
             <Input flex={1}
-              onChange={e => setinput(e.target.value)}
+              onChangeText={e => setinput(e)}
               value={input}
               placeholder="Add Task" />
 

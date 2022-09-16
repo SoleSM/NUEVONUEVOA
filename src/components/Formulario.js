@@ -6,31 +6,48 @@ const Formulario = () => {
 
     const [user, setUser] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState([{}]);
+    const [error, setError] = useState({});
 
-    const { Label, HelperText } = FormControl;
+    const { HelperText } = FormControl;
+
+    const dataBase = [
+        { username: "Hola123", password: "Hola123" },
+        { username: "Sole", password: "123" },
+        { username: "Sole1", password: "123" },
+        { username: "Sole2", password: "123" }
+    ]
 
 
     const validate = () => {
-        setError([{}]);
+        const newError = {}
 
+        //Si entra en la validación, se agrega el atributo USERNAME al objeto de error
         if (user.length < 5) {
-           const newError =  { username: "El usuario debe contener al menos 5 letras" }
-           setError([...error, newError]);
-            return false;
+            newError.username = "El usuario debe contener al menos 5 letras"
         }
 
+        //Si entra en la validación, se agrega el atributo PASSWORD al objeto de error
         if (password.length < 3) {
-             const newError = { password: "El password debe contener al menos 3 letras" }
-             setError([...error, newError]);
-            return false;
+            newError.password = "El password debe contener al menos 3 letras"
         }
-        return true;
+
+        
+        if(user !== dataBase.find( objeto => objeto.username)){
+            newError.account = "El usuario o la contraseña son incorrectos"
+        } 
+        
+        
+
+        setError(newError);
+
+        //Niega que existan errores en ERROR
+        return !(newError.username || newError.password || newError.account)
     }
 
     const onSubmit = () => {
 
-        validate() ? console.log("todo ok :D") : console.log("no")
+        //si no hay errores, validate devuelve FALSE, si existen devuelve TRUE
+        validate() ? console.log("todo ok :D") : console.log(error)
     }
 
     return (
@@ -39,7 +56,7 @@ const Formulario = () => {
             <Box w="100%" maxWidth="300px">
                 <FormControl isRequired>
                     <Stack mx="4">
-                        <Label>Username</Label>
+                        <Text>Username</Text>
                         <Input type="text" placeholder="username"
                             onChangeText={value => setUser(value)} />
                     </Stack>
@@ -52,7 +69,7 @@ const Formulario = () => {
                             </HelperText>
                     }
                     <Stack mx="4">
-                        <Label>Password</Label>
+                        <Text>Password</Text>
                         <Input type="password" placeholder="password"
                             onChangeText={value => setPassword(value)} />
                     </Stack>
@@ -65,6 +82,14 @@ const Formulario = () => {
                     }
                     <Button onPress={onSubmit}>Enviar</Button>
                 </FormControl>
+
+
+                {
+                    !error.account
+                    ? <Text>Logueado con exito!</Text>
+                    : console.log(":DDD")
+                }
+                
             </Box>
         </Box>
 
